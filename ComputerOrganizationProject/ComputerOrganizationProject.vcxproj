@@ -87,7 +87,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -103,7 +103,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -133,21 +133,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\Main.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\DecryptData.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\EncryptData.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\SHA-256.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DecryptData.cpp" />
+    <ClCompile Include="EncryptData.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\Main.h" />
-    <ClInclude Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\SHA-256.h" />
+    <ClInclude Include= "Main.h"/>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\1_testASCII.txt" />
+    <Text Include="Argument Files\1_testASCII.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\2_testHex.hex" />
-    <None Include="..\..\..\..\..\..\Computer Organization\2023_01_CS_3843_ProjectFiles4Students_Posted\ProjectFiles4Students\Key.dat" />
+    <None Include="Argument Files\2_testHex.hex" />
+    <None Include="Argument Files\Key.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
