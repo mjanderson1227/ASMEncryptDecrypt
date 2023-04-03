@@ -10,10 +10,6 @@ void encryptData_01(char* data, int datalength)
 {
 	__asm
 	{
-		// Access parameters before setting up stack frame.
-		push datalength;
-		push data;
-
 		//Set up stack frame
 		push ebp;
 		mov ebp, esp;
