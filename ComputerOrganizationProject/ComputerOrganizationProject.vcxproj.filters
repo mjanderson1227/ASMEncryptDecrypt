@@ -18,10 +18,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DecryptData.cpp">
+    <ClCompile Include="DecryptData_Student.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EncryptData.cpp">
+    <ClCompile Include="EncryptData_Student.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SHA-256.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,18 +32,26 @@
     <ClInclude Include="Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SHA-256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-      <Text Include="Argument Files\1_testASCII.txt">
+    <Text Include="ArgumentFiles\1_testASCII.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Argument Files\2_testHex.hex">
+    <None Include="ArgumentFiles\2_testHex.hex">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Argument Files\Key.dat">
+    <None Include="ArgumentFiles\Key.dat">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ArgumentFiles\3_SI.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

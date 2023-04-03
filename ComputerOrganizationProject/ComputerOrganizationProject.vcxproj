@@ -133,19 +133,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DecryptData_Student.cpp" />
+    <ClCompile Include="EncryptData_Student.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="DecryptData.cpp" />
-    <ClCompile Include="EncryptData.cpp" />
+    <ClCompile Include="SHA-256.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include= "Main.h"/>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="SHA-256.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Argument Files\1_testASCII.txt" />
+    <Text Include="ArgumentFiles\1_testASCII.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Argument Files\2_testHex.hex" />
-    <None Include="Argument Files\Key.dat" />
+    <None Include="ArgumentFiles\2_testHex.hex" />
+    <None Include="ArgumentFiles\Key.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ArgumentFiles\3_SI.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

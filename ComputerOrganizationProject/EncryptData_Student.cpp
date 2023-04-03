@@ -4,11 +4,10 @@
 //
 
 #include "Main.h"
-#include <iostream>
 
 void encryptData_01(char* data, int datalength)
 {
-	__asm
+	/*__asm
 	{
 		//Set up stack frame
 		push ebp;
@@ -66,5 +65,5 @@ void encryptData_01(char* data, int datalength)
 		ret;
 	}
 
-	return;
+	return;*/
 } // encryptData_01

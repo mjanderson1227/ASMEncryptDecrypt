@@ -7,12 +7,9 @@
 
 void decryptData_01(char* data, int sized)
 {
-	__asm
+	
+	/*__asm
 	{
-		// Access parameters before setting up stack frame.
-		push datalength;
-		push data;
-
 		//Set up stack frame
 		push ebp;
 		mov ebp, esp;
@@ -69,5 +66,5 @@ void decryptData_01(char* data, int sized)
 		ret;
 	}
 
-	return;
+	return;*/
 } // decryptData_01
