@@ -7,63 +7,48 @@
 
 void encryptData_01(char* data, int datalength)
 {
-	/*__asm
+	__asm
 	{
-		//Set up stack frame
-		push ebp;
-		mov ebp, esp;
-		sub esp, 12; // Change later to correspond to the other milestones
-		push ebx;
-		push esi;
-		push edi;
+		// Zero the accumulator register
+		xor eax, eax;
 
-		// Starting_index[round] = gPasswordHash[0+round*4] * 256 + gPasswordHash[1+round*4];
-		mov eax, 256;
-		mov edx, dword ptr[gNumRounds];
-		movzx ebx, byte ptr[gPasswordHash + edx * 4];
+		// Fetch Global Variable data
+		lea ebx, gPasswordHash;
+		mov esi, gNumRounds;
 
-		// Store gPasswordHash[0+round*4] * 256 in eax
-		mul ebx;
+		// ah = gPasswordHash[0+round*4] * 256
+		mov ah, byte ptr[ebx + esi * 4 + 0];
 
-		// Store gPasswordHash[1+round*4] in ebx
-		movzx ebx, byte ptr[esi + edx * 4 + 1];
+		// al = gPasswordHash[1 + round * 4]
+		mov al, byte ptr[ebx + esi * 4 + 1];
 
-		// Add together and store in Starting_index local variable
-		add eax, ebx;
-		mov dword ptr[ebp - 4], eax;
+		// eax = index = gPasswordHash[0 + round * 4] * 256 + gPasswordHash[1 + round * 4]
 
-		// index = Starting_index[round]
-		mov dword ptr[ebp - 8], eax;
-
-		// Begin Loop through the file
-		mov ecx, 0;
-		mov edx, dword ptr[ebp + 12];
+		// Setting up loop values:
+		mov edx, datalength; // Stop Case
+		xor ecx, ecx; // Counter
+		mov esi, data; // Data Pointer
+		lea edi, gkey // gkey Pointer
 
 	ENCRYPT:
-		// If the value of ecx is equal to the datalength then stop the loop.
-		cmp ecx, edx;
+		// Check to see if the program has reached the end of the array.
+		cmp edx, ecx;
 		je END;
+		
+		// data[x] = data[x] ^ gkey[index]
+		mov bl, byte ptr[edi + eax];
+		mov bh, byte ptr[esi + ecx];
+		xor bh, bl;
+		mov byte ptr[esi + ecx], bh;
 
-		mov ebx, dword ptr[ebp - 8];
-		mov al, byte ptr[gkey + ebx];
-		mov bl, byte ptr[ebp + ecx + 8];
-		xor al, bl;
-		mov byte ptr[ebp + ecx + 8], al;
-
-
+		// Increment counter
 		add ecx, 1;
+
+		// Jump back to the beginning of the loop
 		jmp ENCRYPT;
 
 	END:
-		// Tear Down Stack Frame
-		add esp, 12;
-		pop edi;
-		pop esi;
-		pop ebx;
-		mov esp, ebp;
-		pop ebp;
-		ret;
+		nop;
 	}
-
-	return;*/
+	return;
 } // encryptData_01
