@@ -143,14 +143,14 @@
     <ClInclude Include="SHA-256.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ArgumentFiles\1_testASCII.txt" />
+    <Text Include="Resources\1_testASCII.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ArgumentFiles\2_testHex.hex" />
-    <None Include="ArgumentFiles\Key.dat" />
+    <None Include="Resources\2_testHex.hex" />
+    <None Include="Resources\Key.dat" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ArgumentFiles\3_SI.jpg" />
+    <Image Include="Resources\3_SI.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

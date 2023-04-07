@@ -37,20 +37,20 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ArgumentFiles\1_testASCII.txt">
+    <Text Include="Resources\1_testASCII.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ArgumentFiles\2_testHex.hex">
+    <None Include="Resources\2_testHex.hex">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ArgumentFiles\Key.dat">
+    <None Include="Resources\Key.dat">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ArgumentFiles\3_SI.jpg">
+    <Image Include="Resources\3_SI.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
