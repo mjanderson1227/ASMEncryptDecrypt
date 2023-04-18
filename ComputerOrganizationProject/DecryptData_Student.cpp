@@ -23,6 +23,9 @@ void decryptData_01(char* data, int sized)
 		lea ebx, gPasswordHash;
 		mov esi, gNumRounds;
 
+		// Set rounds to 0
+		dec esi;
+
 		// ah = gPasswordHash[0+round*4] * 256
 		mov ah, byte ptr[ebx + esi * 4 + 0];
 
@@ -52,7 +55,7 @@ void decryptData_01(char* data, int sized)
 		mov byte ptr[esi + ecx], bh;
 
 		// Increment counter
-		add ecx, 1;
+		inc ecx;
 
 		// Jump back to the beginning of the loop
 		jmp DECRYPT;
