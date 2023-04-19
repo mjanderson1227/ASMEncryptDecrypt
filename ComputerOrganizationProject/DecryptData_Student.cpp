@@ -55,6 +55,34 @@ void decryptData_01(char* data, int sized)
 		mov byte ptr[esi + ecx], bh;
 
 		// Increment counter
+		
+	// -------------------- milestone 2 ---------------------------- //
+		
+		// nibble rotate in
+		// - mov eax, bl;
+		// - rol bl, 8;
+		
+		// reverse bit order
+		// - mov al, 32;
+		// - shr eax, 1; // moving the bit of eax into the carry flag
+		// - rcl ebx, 8; // shifting the bit back from the number of previous rotations
+		
+		// Invert bits of 0, 2, 4, 7
+		// - mov eax, [esi-4]
+		// - xor eax, eax
+		// - mov eax, [esi-12]
+		// - xor eax, eax
+		// - mov eax, [esi-20]
+		// - xor eax, eax
+		// - mov eax, [esi-32]
+		// - xor eax, eax
+		
+		// rotate 2 bits to the right
+		// - mov eax, esi
+		// - rol esi, 2
+		
+	// -------------------- milestone 2 ---------------------------- //
+		
 		inc ecx;
 
 		// Jump back to the beginning of the loop
