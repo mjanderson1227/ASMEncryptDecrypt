@@ -52,10 +52,44 @@ void encryptData_01(char* data, int datalength)
 		// data[x] = data[x] ^ gkey[index]
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
+		
 		xor bh, bl;
 		mov byte ptr[esi + ecx], bh;
 
 		// Increment counter
+		
+	// -------------------- milestone 2 ---------------------------- //
+		// know which letters correspond to the ascii tables that are defined
+		// code table swap;
+		// - mov esi, eax;
+		// - mov swapbyte, c;
+		// - XOR swapbyte, 0xC4; // change the ascii value of 'c' to 0xC4
+		
+		// nibble rotate out
+		// - mov eax, bl;
+		// - ror bl, 8;
+		
+		// reverse bit order
+		// - mov al, 32;
+		// - shr eax, 1; // moving the bit of eax into the carry flag
+		// - rcr ebx, 8; // shifting the bit back from the number of previous rotations
+		
+		// Invert bits of 0, 2, 4, 7
+		// - mov eax, [esi-4]
+		// - xor eax, eax
+		// - mov eax, [esi-12]
+		// - xor eax, eax
+		// - mov eax, [esi-20]
+		// - xor eax, eax
+		// - mov eax, [esi-32]
+		// - xor eax, eax
+		
+		// rotate 2 bits to the right
+		// - mov eax, esi
+		// - ror esi, 2
+		
+	// -------------------- milestone 2 ---------------------------- //
+		
 		inc ecx;
 
 		// Jump back to the beginning of the loop
