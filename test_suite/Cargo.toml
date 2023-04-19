@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 file_diff = "1.0.0"
+serde_json = "1.0.96"
 youchoose = "0.1.1"
