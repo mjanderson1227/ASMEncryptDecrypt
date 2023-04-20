@@ -84,7 +84,7 @@ void encryptData_01(char* data, int datalength)
 		sal al, 1;
 		or al, ah;
 
-			// Rotate right nibble
+		// Rotate right nibble
 		mov dl, bh;
 		and dl, 15;
 		mov dh, bl;
@@ -98,17 +98,77 @@ void encryptData_01(char* data, int datalength)
 
 		//Using bh as the register for the encrypted Character
 		mov bh, al;
+		
+		// -------------------- milestone 2 ---------------------------- //
 
 		// Part C - reverse bit order
-		xor eax, eax;
-		mov al, bh;
-		mov mov ah, bh;
+		// Needs some work
+		-------------------------------------------------------------------------------------------------------
+		/*
+		movzx eax, [edx + ecx]; // zero extend and push the address of both edx + ecx
+		// brute force method
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		rcl al, 1
+		rcr ah, 1
+			
+		mov [edx + ecx], ah // the value of ah goes into the new value of the combined addresses of edx and ecx
+		*/
+		
+		-----------------------------------------------------------------------------------------------------------
+		
+		// Part C - reverse bit order but using a loop instead
+		/*
+		mov eax, 8 // initialize the loop counter to 8
+		
+		bit_reverse_loop:
+			rcl al, 1 // rorate left with carry
+			rcr ah, 1 // rotate left with carry
+			loop bit_reverse_loop // to decrement the counter and jump to the start of the loop if not zero
+			
+		bit_reverse_done:
+			cmp ecx, 0 // comparing the loop counter with zero
+			jne continue_after_loop // if not zero, jump to continue_after_loop
+		
+		continue_after_loop:
+			continue // keep going into part D
+		
+		-----------------------------------------------------------------------------------------------------------	
+		
+		// moving with the sign extension 
+		movsx eax, 4]
+		
+		
+		/* old attempted part C function, not a brute force approach
+		xor eax, eax; // zero out the eax registers
+		mov al, bh; // set bh to the last bit at al
+		mov ah, bh; 
 		and ah, -16;
 		and al, 15;
 		rol ah, 4;
 		ror al, 4;
 		or al, ah;
 		mov bh, al;
+		*/
 
 		
 		// Part D - Invert bits of 0, 2, 4, 7
