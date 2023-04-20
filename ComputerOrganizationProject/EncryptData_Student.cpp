@@ -49,48 +49,84 @@ void encryptData_01(char* data, int datalength)
 		cmp edx, ecx;
 		je END;
 		
-		// data[x] = data[x] ^ gkey[index]
+		// data[x] = data[x] ^ gkey[index], x = esi+ecx
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
 		
 		xor bh, bl;
-		mov byte ptr[esi + ecx], bh;
 
 		// Increment counter
 		
 	// -------------------- milestone 2 ---------------------------- //
-		// know which letters correspond to the ascii tables that are defined
-		// code table swap;
-		// - mov esi, eax;
-		// - mov swapbyte, c;
-		// - XOR swapbyte, 0xC4; // change the ascii value of 'c' to 0xC4
+		// Save registers
+		push eax;
+		push edx;
+		push esi;
+		push edi;
+
+		// Part A - Code table Swap
+		lea eax, gEncodeTable;
+		movsx edx, bh;
+
+		// Store swapped variable in bh
+		mov bh, byte ptr[eax + edx];
+
+		// nibble rotate out	
+		xor eax, eax;
+		xor edx, edx;
+
+		// Rotate left nibble
+		mov al, bh;
+		and al, -16;
+		mov ah, al;
+		and ah, -128;
+		rol ah, 4; // <-- Possible error.
+		sal al, 1;
+		or al, ah;
+
+			// Rotate right nibble
+		mov dl, bh;
+		and dl, 15;
+		mov dh, bl;
+		and dh, 1;
+		ror dh, 4; // <-- Possible error.
+		sar dl, 1;
+		or dl, dh;
+
+		// Join both nibbles
+		or al, dl;
+
+		//Using bh as the register for the encrypted Character
+		mov bh, al;
+
+		// Part C - reverse bit order
+		xor eax, eax;
+		mov al, bh;
+		mov mov ah, bh;
+		and ah, -16;
+		and al, 15;
+		rol ah, 4;
+		ror al, 4;
+		or al, ah;
+		mov bh, al;
+
 		
-		// nibble rotate out
-		// - mov eax, bl;
-		// - ror bl, 8;
+		// Part D - Invert bits of 0, 2, 4, 7
+		xor bh, 109;
 		
-		// reverse bit order
-		// - mov al, 32;
-		// - shr eax, 1; // moving the bit of eax into the carry flag
-		// - rcr ebx, 8; // shifting the bit back from the number of previous rotations
-		
-		// Invert bits of 0, 2, 4, 7
-		// - mov eax, [esi-4]
-		// - xor eax, eax
-		// - mov eax, [esi-12]
-		// - xor eax, eax
-		// - mov eax, [esi-20]
-		// - xor eax, eax
-		// - mov eax, [esi-32]
-		// - xor eax, eax
-		
-		// rotate 2 bits to the right
-		// - mov eax, esi
-		// - ror esi, 2
+		// Part E - rotate 2 bits to the right
+		ror bh, 2;
+
+		// Load saved registers
+		pop edi;
+		pop esi;
+		pop edx;
+		pop eax;
 		
 	// -------------------- milestone 2 ---------------------------- //
 		
 		inc ecx;
+		mov byte ptr[esi + ecx], bh;
 
 		// Jump back to the beginning of the loop
 		jmp ENCRYPT;
