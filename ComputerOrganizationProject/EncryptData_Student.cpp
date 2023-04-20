@@ -104,7 +104,7 @@ void encryptData_01(char* data, int datalength)
 		// Part C - reverse bit order
 		// Needs some work
 		-------------------------------------------------------------------------------------------------------
-		/*
+		
 		movzx eax, [edx + ecx]; // zero extend and push the address of both edx + ecx
 		// brute force method
 		rcl al, 1
@@ -132,7 +132,7 @@ void encryptData_01(char* data, int datalength)
 		rcr ah, 1
 			
 		mov [edx + ecx], ah // the value of ah goes into the new value of the combined addresses of edx and ecx
-		*/
+		
 		
 		-----------------------------------------------------------------------------------------------------------
 		
