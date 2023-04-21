@@ -55,9 +55,8 @@ void encryptData_01(char* data, int datalength)
 		
 		xor bh, bl;
 
-		// Increment counter
+		// Start Milestone 2: ----------------------------------------------------------------------------------------------------
 		
-	// -------------------- milestone 2 ---------------------------- //
 		// Save registers
 		push eax;
 		push edx;
@@ -66,75 +65,76 @@ void encryptData_01(char* data, int datalength)
 
 		// Part A - Code table Swap
 		lea eax, gEncodeTable;
-		movsx edx, bh;
+		movzx edx, bh;
 
-		// Store swapped variable in bh
+			// Store swapped variable in bh
 		mov bh, byte ptr[eax + edx];
 
-		// nibble rotate out	
+		// Part D - Invert bits of 0, 2, 4, 7
+		xor bh, -109;
+
+		// Part E - rotate 2 bits to the right
+		ror bh, 2;
+
+		// Part C - reverse bit order
+		// Needs some work
+
+		movzx eax, bh; // zero extend and push the address of both edx + ecx
+		// brute force method
+		rcl al, 1;
+		rcr ah, 1;
+
+		rcl al, 1;
+		rcr ah, 1;
+
+		rcl al, 1;
+		rcr ah, 1;
+				 
+		rcl al, 1;
+		rcr ah, 1;
+				 
+		rcl al, 1;
+		rcr ah, 1;
+				 
+		rcl al, 1;
+		rcr ah, 1;
+				 
+		rcl al, 1;
+		rcr ah, 1;
+				 
+		rcl al, 1;
+		rcr ah, 1;
+
+		mov bh, ah // the value of ah goes into the new value of the combined addresses of edx and ecx
+
+		// Part B - nibble rotate out	
 		xor eax, eax;
 		xor edx, edx;
 
-		// Rotate left nibble
+			// Rotate left nibble
 		mov al, bh;
 		and al, -16;
 		mov ah, al;
 		and ah, -128;
-		rol ah, 4; // <-- Possible error.
-		sal al, 1;
+		ror ah, 3; // <-- Possible error.
+		shl al, 1;
 		or al, ah;
 
-		// Rotate right nibble
+			// Rotate right nibble
 		mov dl, bh;
 		and dl, 15;
 		mov dh, bl;
 		and dh, 1;
-		ror dh, 4; // <-- Possible error.
-		sar dl, 1;
+		rol dh, 3; // <-- Possible error.
+		shr dl, 1;
 		or dl, dh;
 
-		// Join both nibbles
+			// Join both nibbles
 		or al, dl;
 
 		//Using bh as the register for the encrypted Character
 		mov bh, al;
-		
-		// -------------------- milestone 2 ---------------------------- //
 
-		// Part C - reverse bit order
-		// Needs some work
-		-------------------------------------------------------------------------------------------------------
-		
-		movzx eax, [edx + ecx]; // zero extend and push the address of both edx + ecx
-		// brute force method
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		rcl al, 1
-		rcr ah, 1
-			
-		mov [edx + ecx], ah // the value of ah goes into the new value of the combined addresses of edx and ecx
-		
-		
-		-----------------------------------------------------------------------------------------------------------
 		
 		// Part C - reverse bit order but using a loop instead
 		/*
@@ -170,23 +170,16 @@ void encryptData_01(char* data, int datalength)
 		mov bh, al;
 		*/
 
-		
-		// Part D - Invert bits of 0, 2, 4, 7
-		xor bh, 109;
-		
-		// Part E - rotate 2 bits to the right
-		ror bh, 2;
-
 		// Load saved registers
 		pop edi;
 		pop esi;
 		pop edx;
 		pop eax;
 		
-	// -------------------- milestone 2 ---------------------------- //
-		
-		inc ecx;
+	// -------------------- Milestone 2 END --------------------
+
 		mov byte ptr[esi + ecx], bh;
+		inc ecx;
 
 		// Jump back to the beginning of the loop
 		jmp ENCRYPT;

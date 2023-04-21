@@ -52,37 +52,94 @@ void decryptData_01(char* data, int sized)
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
 		xor bh, bl;
-		mov byte ptr[esi + ecx], bh;
+		
 
 		// Increment counter
 		
 	// -------------------- milestone 2 ---------------------------- //
+
+		// Save registers
+		push eax;
+		push edx;
+		push esi;
+		push edi;
 		
-		// nibble rotate in
-		// - mov eax, bl;
-		// - rol bl, 8;
+		// nibble rotate in	
+		xor eax, eax;
+		xor edx, edx;
+
+		// Rotate right nibble
+		mov al, bh;
+		and al, 15;
+		mov ah, al;
+		and ah, 1;
+		rol ah, 3; // <-- Possible error.
+		shr al, 1;
+		or al, ah;
+
+		// Rotate left nibble
+		mov dl, bh;
+		and dl, -16;
+		mov dh, bl;
+		and dh, -128;
+		ror dh, 3; // <-- Possible error.
+		shl dl, 1;
+		or dl, dh;
+
+		// Join both nibbles
+		or al, dl;
+
+		//Using bh as the register for the encrypted Character
+		mov bh, al;
 		
-		// reverse bit order
-		// - mov al, 32;
-		// - shr eax, 1; // moving the bit of eax into the carry flag
-		// - rcl ebx, 8; // shifting the bit back from the number of previous rotations
+		// Reverse bit order
+		movzx eax, bh; // zero extend and push the address of both edx + ecx
+		// brute force method
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		rcr ah, 1;
+		rcl al, 1;
+
+		mov bh, al; // the value of ah goes into the new value of the combined addresses of edx and ecx
+
+		// Rotate 2 bits left
+		rol bh, 2;
 		
 		// Invert bits of 0, 2, 4, 7
-		// - mov eax, [esi-4]
-		// - xor eax, eax
-		// - mov eax, [esi-12]
-		// - xor eax, eax
-		// - mov eax, [esi-20]
-		// - xor eax, eax
-		// - mov eax, [esi-32]
-		// - xor eax, eax
-		
-		// rotate 2 bits to the right
-		// - mov eax, esi
-		// - rol esi, 2
+		xor bh, -109;
+
+		// Index decoding table
+		lea eax, gDecodeTable;
+		movzx edx, bh;
+
+		// Load saved registers
+		pop edi;
+		pop esi;
+		pop edx;
+		pop eax;
 		
 	// -------------------- milestone 2 ---------------------------- //
 		
+		mov byte ptr[esi + ecx], bh;
 		inc ecx;
 
 		// Jump back to the beginning of the loop
