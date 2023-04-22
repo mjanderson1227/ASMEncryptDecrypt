@@ -31,7 +31,7 @@
 #define FALL_2021		FALL_2020
 #define FALL_2022		FALL_2020
 
-#define CURRENT_SEMESTER FALL_2022
+#define CURRENT_SEMESTER FALL_2023
 
 // Structures
 
