@@ -25,8 +25,8 @@ void encryptData_01(char* data, int datalength)
 		lea ebx, gPasswordHash;
 		mov esi, gNumRounds;
 
-		// Set rounds to 0
-		dec esi;
+		// Set rounds to 0 - Remove for milestone 3
+		xor esi, esi;
 
 		// ah = gPasswordHash[0+round*4] * 256
 		mov ah, byte ptr[ebx + esi * 4 + 0];
@@ -45,6 +45,7 @@ void encryptData_01(char* data, int datalength)
 		lea edi, gkey // gkey Pointer
 
 	ENCRYPT:
+		
 		// Check to see if the program has reached the end of the array.
 		cmp edx, ecx;
 		je END;
@@ -71,7 +72,7 @@ void encryptData_01(char* data, int datalength)
 		mov bh, byte ptr[eax + edx];
 
 		// Part D - Invert bits of 0, 2, 4, 7
-		xor bh, -109;
+		xor bh, -107;
 
 		// Part E - rotate 2 bits to the right
 		ror bh, 2;
@@ -81,29 +82,29 @@ void encryptData_01(char* data, int datalength)
 
 		movzx eax, bh; // zero extend and push the address of both edx + ecx
 		// brute force method
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 				 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 				 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 				 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 				 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 				 
-		rcl al, 1;
 		rcr ah, 1;
+		rcl al, 1;
 
 		mov bh, ah // the value of ah goes into the new value of the combined addresses of edx and ecx
 
@@ -116,16 +117,16 @@ void encryptData_01(char* data, int datalength)
 		and al, -16;
 		mov ah, al;
 		and ah, -128;
-		ror ah, 3; // <-- Possible error.
+		shr ah, 3; // <-- Possible error.
 		shl al, 1;
 		or al, ah;
 
 			// Rotate right nibble
 		mov dl, bh;
 		and dl, 15;
-		mov dh, bl;
+		mov dh, dl;
 		and dh, 1;
-		rol dh, 3; // <-- Possible error.
+		shl dh, 3; // <-- Possible error.
 		shr dl, 1;
 		or dl, dh;
 
@@ -151,24 +152,10 @@ void encryptData_01(char* data, int datalength)
 		
 		continue_after_loop:
 			continue // keep going into part D
-		
-		-----------------------------------------------------------------------------------------------------------	
+		*/
 		
 		// moving with the sign extension 
-		movsx eax, 4]
-		
-		
-		/* old attempted part C function, not a brute force approach
-		xor eax, eax; // zero out the eax registers
-		mov al, bh; // set bh to the last bit at al
-		mov ah, bh; 
-		and ah, -16;
-		and al, 15;
-		rol ah, 4;
-		ror al, 4;
-		or al, ah;
-		mov bh, al;
-		*/
+		// movsx eax, 4]
 
 		// Load saved registers
 		pop edi;
@@ -178,7 +165,8 @@ void encryptData_01(char* data, int datalength)
 		
 	// -------------------- Milestone 2 END --------------------
 
-		mov byte ptr[esi + ecx], bh;
+
+		mov byte ptr [esi + ecx], bh;
 		inc ecx;
 
 		// Jump back to the beginning of the loop

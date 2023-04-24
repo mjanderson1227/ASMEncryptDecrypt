@@ -42,8 +42,9 @@ void decryptData_01(char* data, int sized)
 		lea edi, gkey // gkey Pointer
 
 	DECRYPT:
+
 		// Check to see if the program has reached the end of the array.
-		// je being jumo if equal or a conditional jump in this case checking if the end of the array has been reached.
+		// je being jump if equal or a conditional jump in this case checking if the end of the array has been reached.
 		cmp edx, ecx;
 		je END;
 		
@@ -51,7 +52,6 @@ void decryptData_01(char* data, int sized)
 		// data[x] = data[x] ^ gkey[index]
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
-		xor bh, bl;
 		
 
 		// Increment counter
@@ -68,23 +68,25 @@ void decryptData_01(char* data, int sized)
 		xor eax, eax;
 		xor edx, edx;
 
+		// Rotate left nibble
+		mov dl, bh;
+		and dl, -16;
+		mov dh, dl;
+		and dh, 16;
+		shl dh, 3; // <-- Possible error.
+		shr dl, 1;
+		and dl, -16;
+		or dl, dh;
+
 		// Rotate right nibble
 		mov al, bh;
 		and al, 15;
 		mov ah, al;
-		and ah, 1;
-		rol ah, 3; // <-- Possible error.
-		shr al, 1;
+		and ah, 8;
+		shr ah, 3; // <-- Possible error.
+		shl al, 1;
+		and al, 15
 		or al, ah;
-
-		// Rotate left nibble
-		mov dl, bh;
-		and dl, -16;
-		mov dh, bl;
-		and dh, -128;
-		ror dh, 3; // <-- Possible error.
-		shl dl, 1;
-		or dl, dh;
 
 		// Join both nibbles
 		or al, dl;
@@ -93,43 +95,44 @@ void decryptData_01(char* data, int sized)
 		mov bh, al;
 		
 		// Reverse bit order
-		movzx eax, bh; // zero extend and push the address of both edx + ecx
-		// brute force method
-		rcr ah, 1;
+		movzx eax, bh; // zero extend and load into 32 bit reg for segmented manipulation  
 		rcl al, 1;
-
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
+		rcl al, 1;
 		rcr ah, 1;
-		rcl al, 1;
 
-		mov bh, al; // the value of ah goes into the new value of the combined addresses of edx and ecx
+		rcl al, 1;
+		rcr ah, 1;
+
+		mov bh, ah; // the value of ah goes into the new value of the combined addresses of edx and ecx
 
 		// Rotate 2 bits left
 		rol bh, 2;
 		
 		// Invert bits of 0, 2, 4, 7
-		xor bh, -109;
+		xor bh, -107;
 
 		// Index decoding table
 		lea eax, gDecodeTable;
 		movzx edx, bh;
+
+		mov bh, byte ptr[eax + edx];
 
 		// Load saved registers
 		pop edi;
@@ -138,7 +141,11 @@ void decryptData_01(char* data, int sized)
 		pop eax;
 		
 	// -------------------- milestone 2 ---------------------------- //
-		
+
+		mov bl, byte ptr[edi + eax];
+		// Perform XOR AFTER the rest of the operations
+		xor bh, bl;
+
 		mov byte ptr[esi + ecx], bh;
 		inc ecx;
 

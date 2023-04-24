@@ -56,7 +56,7 @@
 // Global Variables
 unsigned char gkey[65537];
 unsigned char *gptrKey = gkey;			// used for inline assembly routines, need to access this way for Visual Studio
-char gPassword[256] = "password";
+char gPassword[256] = "SECRET";
 unsigned char gPasswordHash[32];
 unsigned char *gptrPasswordHash = gPasswordHash;	// used for inline assembly routines, need to access this way for Visual Studio
 char gCRYPTO_ORDER[8] = CRYPTO_ORDER;
