@@ -117,7 +117,7 @@ void encryptData_01(char* data, int datalength)
 		and al, -16;
 		mov ah, al;
 		and ah, -128;
-		shr ah, 3; // <-- Possible error.
+		shr ah, 3; 
 		shl al, 1;
 		or al, ah;
 
@@ -126,7 +126,7 @@ void encryptData_01(char* data, int datalength)
 		and dl, 15;
 		mov dh, dl;
 		and dh, 1;
-		shl dh, 3; // <-- Possible error.
+		shl dh, 3;
 		shr dl, 1;
 		or dl, dh;
 
@@ -136,27 +136,6 @@ void encryptData_01(char* data, int datalength)
 		//Using bh as the register for the encrypted Character
 		mov bh, al;
 
-		
-		// Part C - reverse bit order but using a loop instead
-		/*
-		mov eax, 8 // initialize the loop counter to 8
-		
-		bit_reverse_loop:
-			rcl al, 1 // rorate left with carry
-			rcr ah, 1 // rotate left with carry
-			loop bit_reverse_loop // to decrement the counter and jump to the start of the loop if not zero
-			
-		bit_reverse_done:
-			cmp ecx, 0 // comparing the loop counter with zero
-			jne continue_after_loop // if not zero, jump to continue_after_loop
-		
-		continue_after_loop:
-			continue // keep going into part D
-		*/
-		
-		// moving with the sign extension 
-		// movsx eax, 4]
-
 		// Load saved registers
 		pop edi;
 		pop esi;
@@ -165,7 +144,7 @@ void encryptData_01(char* data, int datalength)
 		
 	// -------------------- Milestone 2 END --------------------
 
-
+		// Put encrypted character back into the file.
 		mov byte ptr [esi + ecx], bh;
 		inc ecx;
 
@@ -173,7 +152,6 @@ void encryptData_01(char* data, int datalength)
 		jmp ENCRYPT;
 
 	END:
-		nop;
 	}
 	return;
 } // encryptData_01

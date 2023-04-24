@@ -70,20 +70,18 @@ void decryptData_01(char* data, int sized)
 
 		// Rotate left nibble
 		mov dl, bh;
-		and dl, -16;
 		mov dh, dl;
 		and dh, 16;
-		shl dh, 3; // <-- Possible error.
+		shl dh, 3;
 		shr dl, 1;
 		and dl, -16;
 		or dl, dh;
 
 		// Rotate right nibble
 		mov al, bh;
-		and al, 15;
 		mov ah, al;
 		and ah, 8;
-		shr ah, 3; // <-- Possible error.
+		shr ah, 3; 
 		shl al, 1;
 		and al, 15
 		or al, ah;
@@ -153,7 +151,6 @@ void decryptData_01(char* data, int sized)
 		jmp DECRYPT;
 
 	END:
-		nop;
 	}
 	return;
 } // decryptData_01
