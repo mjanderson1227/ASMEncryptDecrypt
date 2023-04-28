@@ -133,8 +133,8 @@ void encryptData_01(char* data, int datalength)
 		mov ecx, 8;
 
 	ROTATELOOP:
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 		loop ROTATELOOP;
 
 		mov bh, ah // the value of ah goes into the new value of the combined addresses of edx and ecx
