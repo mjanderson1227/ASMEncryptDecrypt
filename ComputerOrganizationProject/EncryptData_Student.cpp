@@ -80,31 +80,36 @@ void encryptData_01(char* data, int datalength)
 		// Part C - reverse bit order
 		// Needs some work
 
+		nop;
+		nop;
+		nop;
+		nop;
+		nop;
 		movzx eax, bh; // zero extend and push the address of both edx + ecx
 		// brute force method
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 				 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 				 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 				 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 				 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 				 
-		rcr ah, 1;
 		rcl al, 1;
+		rcr ah, 1;
 
 		mov bh, ah // the value of ah goes into the new value of the combined addresses of edx and ecx
 

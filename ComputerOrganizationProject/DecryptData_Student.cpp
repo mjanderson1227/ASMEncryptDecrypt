@@ -53,9 +53,6 @@ void decryptData_01(char* data, int sized)
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
 		
-
-		// Increment counter
-		
 	// -------------------- milestone 2 ---------------------------- //
 
 		// Save registers
