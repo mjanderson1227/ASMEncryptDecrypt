@@ -11,9 +11,12 @@ void decryptData_01(char* data, int sized)
 	// Two global variables to compare string information when searching for the decryption 
 	// globalDebug1 = 0;
 	// globalDebug2 = 0;
+	int round = 0;
 	
 	__asm
 	{
+	ROUNDLOOP:
+
 		// Zero the accumulator register
 		xor eax, eax;
 
@@ -21,10 +24,10 @@ void decryptData_01(char* data, int sized)
 		// lea or load effective address so that our hash function has a point on the base register
 		// the hash function will serve as a way to keep track of and narrow down our search 
 		lea ebx, gPasswordHash;
-		mov esi, gNumRounds;
+		mov esi, [round];
+		cmp esi, gNumRounds;
+		je END;
 
-		// Set rounds to 0
-		dec esi;
 
 		// ah = gPasswordHash[0+round*4] * 256
 		mov ah, byte ptr[ebx + esi * 4 + 0];
@@ -148,7 +151,7 @@ void decryptData_01(char* data, int sized)
 		inc ecx;
 
 		// Jump back to the beginning of the loop
-		jmp DECRYPT;
+		jmp ROUNDLOOP;
 
 	END:
 	}

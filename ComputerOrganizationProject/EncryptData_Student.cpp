@@ -13,28 +13,61 @@ void encryptData_01(char* data, int datalength)
 	// Two global variables to compare string information when searching for the decryption 
 	// globalDebug1 = 0;
 	// globalDebug2 = 0;
-	
+	int roundNumber = 0;
+	int index = 0;
+	int hop_count = 0;
+
 	__asm
 	{
-		// Zero the accumulator register
-		xor eax, eax;
+
+	ROUNDLOOP:
+
+		nop;
+		nop;
+		nop;
+		nop;
+		nop;
 
 		// Fetch Global Variable data
 		// leading the hash function into the base pointer to help narrow down data for encryption as the loops take place through the data array
 		// gNumRounds being used to keep track of incrementation
 		lea ebx, gPasswordHash;
-		mov esi, gNumRounds;
 
-		// Set rounds to 0 - Remove for milestone 3
-		xor esi, esi;
+		// Get the current round
+		mov esi, [roundNumber];
 
-		// ah = gPasswordHash[0+round*4] * 256
-		mov ah, byte ptr[ebx + esi * 4 + 0];
+		// Round loop stop case
+		cmp esi, gNumRounds;
+		jge END;
+
+		// Zero the accumulator register
+		xor eax, eax;
 
 		// al = gPasswordHash[1 + round * 4]
 		mov al, byte ptr[ebx + esi * 4 + 1];
 
+		// ah = gPasswordHash[0+round*4] * 256
+		mov ah, byte ptr[ebx + esi * 4 + 0];
+
 		// eax = index = gPasswordHash[0 + round * 4] * 256 + gPasswordHash[1 + round * 4]
+		mov [index], eax;
+
+		// Zero eax again
+		xor eax, eax;
+
+		// al = gPasswordHash[3+round*4]
+		mov al, byte ptr[ebx + esi * 4 + 3];
+
+		// ah = gPasswordHash[2+round*4]*256
+		mov ah, byte ptr[ebx + esi * 4 + 2];
+
+		test eax, eax;
+		jne CONTINUE1;
+		mov eax, 0xFFFF;
+
+	CONTINUE1:
+
+		mov [hop_count], eax;
 
 		// Setting up loop values:
 		// Like with the decryption, the encyption will also need to know when to stop, where the pointer is when scalling through the data array
@@ -42,19 +75,32 @@ void encryptData_01(char* data, int datalength)
 		mov edx, datalength; // Stop Case
 		xor ecx, ecx; // Counter
 		mov esi, data; // Data Pointer
-		lea edi, gkey // gkey Pointer
+		lea edi, gkey; // gkey Pointer
+		mov eax, [index];
 
 	ENCRYPT:
 		
 		// Check to see if the program has reached the end of the array.
 		cmp edx, ecx;
-		je END;
-		
-		// data[x] = data[x] ^ gkey[index], x = esi+ecx
+		je EXIT_ENCRYPT;
+
+		// data[x] = data[x] ^ gkey[index], x = ecx
 		mov bl, byte ptr[edi + eax];
 		mov bh, byte ptr[esi + ecx];
 		
 		xor bh, bl;
+
+		// index = index + hop_count
+		mov eax, [hop_count];
+
+		add eax, [index];
+		cmp eax, 65537;
+		jl CONTINUE2;
+		sub eax, 65537;
+
+	CONTINUE2:
+
+		mov [index], eax;
 
 		// Start Milestone 2: ----------------------------------------------------------------------------------------------------
 		
@@ -63,6 +109,7 @@ void encryptData_01(char* data, int datalength)
 		push edx;
 		push esi;
 		push edi;
+		push ecx;
 
 		// Part A - Code table Swap
 		lea eax, gEncodeTable;
@@ -81,30 +128,14 @@ void encryptData_01(char* data, int datalength)
 		// Needs some work
 
 		movzx eax, bh; // zero extend and push the address of both edx + ecx
-		// brute force method
-		rcr ah, 1;
-		rcl al, 1;
 
-		rcr ah, 1;
-		rcl al, 1;
+		// ecx holds the number of times the rotate loop must run
+		mov ecx, 8;
 
+	ROTATELOOP:
 		rcr ah, 1;
 		rcl al, 1;
-				 
-		rcr ah, 1;
-		rcl al, 1;
-				 
-		rcr ah, 1;
-		rcl al, 1;
-				 
-		rcr ah, 1;
-		rcl al, 1;
-				 
-		rcr ah, 1;
-		rcl al, 1;
-				 
-		rcr ah, 1;
-		rcl al, 1;
+		loop ROTATELOOP;
 
 		mov bh, ah // the value of ah goes into the new value of the combined addresses of edx and ecx
 
@@ -137,6 +168,7 @@ void encryptData_01(char* data, int datalength)
 		mov bh, al;
 
 		// Load saved registers
+		pop ecx;
 		pop edi;
 		pop esi;
 		pop edx;
@@ -150,6 +182,14 @@ void encryptData_01(char* data, int datalength)
 
 		// Jump back to the beginning of the loop
 		jmp ENCRYPT;
+
+	EXIT_ENCRYPT:
+
+		// numrounds++
+		inc [roundNumber];
+
+		// Repeat round loop
+		jmp ROUNDLOOP;
 
 	END:
 	}
