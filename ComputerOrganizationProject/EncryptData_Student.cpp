@@ -21,13 +21,6 @@ void encryptData_01(char* data, int datalength)
 	{
 
 	ROUNDLOOP:
-
-		nop;
-		nop;
-		nop;
-		nop;
-		nop;
-
 		// Fetch Global Variable data
 		// leading the hash function into the base pointer to help narrow down data for encryption as the loops take place through the data array
 		// gNumRounds being used to keep track of incrementation
