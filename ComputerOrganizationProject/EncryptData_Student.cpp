@@ -95,9 +95,6 @@ void encryptData_01(char* data, int datalength)
 
 		mov [index], eax;
 
-        // Start Milestone 2:
-        // ----------------------------------------------------------------------------------------------------
-
         // Save registers
 		push eax;
 		push edx;
@@ -171,8 +168,6 @@ void encryptData_01(char* data, int datalength)
 		pop esi;
 		pop edx;
 		pop eax;
-
-        // -------------------- Milestone 2 END --------------------
 
         // Put encrypted character back into the file.
 		mov byte ptr [esi + ecx], bh;
